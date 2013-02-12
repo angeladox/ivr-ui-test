@@ -1,0 +1,73 @@
+package org.motechproject.ivr.ui.web;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.motechproject.ivr.ui.IVRUISettings;
+import org.motechproject.ivr.ui.content.SoundFiles;
+import org.motechproject.ivr.ui.support.DecisionTreeSessionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/ivr")
+public class IvrController {
+
+    private DecisionTreeSessionHandler decisionTreeSessionHandler;
+    private IVRUISettings settings;
+
+    @Autowired
+    public IvrController(DecisionTreeSessionHandler decisionTreeSessionHandler, IVRUISettings settings) {
+        this.decisionTreeSessionHandler = decisionTreeSessionHandler;
+        this.settings = settings;
+    }
+
+    /**
+     * This is the first callback invoked by the Verboice application. At this
+     * point, a call has been initiated to a specific patient. <br />
+     * It should be noted that Verboice uses their own internal variable to
+     * identify a call. Since we have no control over the value of this
+     * identifier, we must update the flow session to use this value.
+     */
+    @RequestMapping("/start")
+    public ModelAndView generateSecurityPinTwiML(HttpServletRequest request) {
+        String verboiceId = request.getParameter("CallSid");
+        String motechId = request.getParameter("motech_call_id");
+        ModelAndView view = new ModelAndView("security-pin");
+
+        decisionTreeSessionHandler.updateFlowSessionIdToVerboiceId(motechId, verboiceId);
+
+        view.addObject("path", settings.getMotechUrl());
+        view.addObject("audioFileUrl", settings.getCmsliteUrlFor(SoundFiles.PIN_REQUEST));
+        view.addObject("sessionId", verboiceId);
+
+        return view;
+    }
+
+    /**
+     * Attempts to authenticate the pin number entered by the patient. If the
+     * pin is accepted, that is the digits entered by the user match the value
+     * of the Pin attribute on the MRS Patient, then it redirects to the
+     * motech-verboice module to handle the rest of the request. If it is not
+     * accepted, the call ends
+     */
+    @RequestMapping("/authenticate")
+    public ModelAndView authenticate(HttpServletRequest request) {
+        String sessionId = request.getParameter("CallSid");
+        String digits = request.getParameter("Digits");
+
+        ModelAndView view = null;
+        if (decisionTreeSessionHandler.digitsMatchPatientPin(sessionId, digits)) {
+            view = new ModelAndView("redirect");
+            view.addObject("path", settings.getMotechUrl());
+            view.addObject("sessionId", sessionId);
+        } else {
+            view = new ModelAndView("failed-authentication");
+            view.addObject("audioFileUrl", settings.getCmsliteUrlFor(SoundFiles.INCORRECT_PIN));
+        }
+
+        return view;
+    }
+
+}

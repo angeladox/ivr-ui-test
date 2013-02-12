@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+    <osgi:reference cardinality="0..1" id="flowSessionServiceOsgi"
+        interface="org.motechproject.decisiontree.server.service.FlowSessionService" />
+
+    <osgi:reference cardinality="0..1" id="mrsPatientAdapterOsgi" interface="org.motechproject.mrs.services.PatientAdapter" />
+
+    <osgi:reference cardinality="0..1" id="mrsFacilityAdapterOsgi" interface="org.motechproject.mrs.services.FacilityAdapter" />
+
+    <osgi:reference cardinality="0..1" id="mrsUserAdapterOsgi" interface="org.motechproject.mrs.services.UserAdapter" />
+
+    <osgi:reference cardinality="0..1" id="mrsEncounterAdapterOsgi" interface="org.motechproject.mrs.services.EncounterAdapter" />
+
+    <osgi:reference cardinality="0..1" id="decisionTreeServiceOsgi"
+        interface="org.motechproject.decisiontree.core.DecisionTreeService" />
+
+    <osgi:reference cardinality="0..1" id="decisionTreeServerOsgi"
+        interface="org.motechproject.decisiontree.server.service.DecisionTreeServer" />
+
+    <osgi:reference cardinality="0..1" id="eventRelayOsgi" interface="org.motechproject.event.listener.EventRelay" />
+
+    <osgi:reference id="eventListenerRegistryServiceOsgi" cardinality="0..1"
+        interface="org.motechproject.event.listener.EventListenerRegistryService" />
+
+    <osgi:reference id="pillReminderServiceOsgi" cardinality="0..1"
+        interface="org.motechproject.server.pillreminder.api.service.PillReminderService" />
+
+    <osgi:reference id="ivrServiceOsgi" cardinality="0..1" interface="org.motechproject.ivr.service.IVRService" />
+
+    <osgi:reference id="platformSettingsServiceOsgi" cardinality="0..1"
+        interface="org.motechproject.server.config.service.PlatformSettingsService" />
+
+    <osgi:reference id="cmsliteServiceOsgi" cardinality="0..1"
+        interface="org.motechproject.cmslite.api.service.CMSLiteService" />
+
+</beans>

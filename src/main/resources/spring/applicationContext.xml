@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+    <import resource="classpath:/spring/osgiServiceContext.xml" />
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.motechproject.ivr.ui" />
+
+    <bean id="openmrsWsSettings" class="org.motechproject.server.config.SettingsFacade" autowire="byType"
+        init-method="afterPropertiesSet">
+        <property name="configFiles">
+            <list>
+                <value>classpath:ivr-ui-test.properties</value>
+            </list>
+        </property>
+        <property name="moduleName" value="ivr-ui-test" />
+    </bean>
+
+    <mvc:annotation-driven />
+
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="classpath:/vm" />
+        <property name="preferFileSystemAccess" value="false" />
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".vm" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+    </bean>
+
+    <bean class="org.motechproject.event.listener.annotations.EventAnnotationBeanPostProcessor" />
+</beans>

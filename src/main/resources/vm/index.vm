@@ -1,0 +1,23 @@
+<!doctype html>
+<html ng-app="pillReminder">
+    <head>
+        <link type="text/css" rel="stylesheet" href="$path/pillreminder-resources/css/bootstrap.css" />
+        <script type="text/javascript" src="$path/pillreminder-resources/js/angular.min.js"></script>
+        <script type="text/javascript" src="$path/pillreminder-resources/js/angular-resource.min.js"></script>
+        <script type="text/javascript" src="$path/pillreminder-resources/app/app.js"></script>
+    </head>
+    <body ng-controller="TabController">
+        <h1>Pill Reminder Demo</h1>
+        
+        <ul class="nav nav-tabs">
+            <li ng-class="searchSelected">
+                <a ng-click="switchToSearch()" href="#">Enroll into Pill Reminder</a>
+            </li>
+            <li ng-class="pillReminderListSelected">
+                <a ng-click="switchToListing()" href="#">Find Pill Reminders</a>
+            </li>
+        </ul>
+        <div ng-include="templateUrl">
+        </div>
+    </body>
+</html>

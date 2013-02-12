@@ -1,0 +1,59 @@
+diff --git a/modules/decisiontree/core/src/main/java/org/motechproject/decisiontree/core/model/EventTransition.java b/modules/decisiontree/core/src/main/java/org/motechproject/decisiontree/core/model/EventTransition.java
+new file mode 100644
+index 0000000..8c699b3
+--- /dev/null
++++ b/modules/decisiontree/core/src/main/java/org/motechproject/decisiontree/core/model/EventTransition.java
+@@ -0,0 +1,39 @@
++package org.motechproject.decisiontree.core.model;
++
++import java.util.HashMap;
++import java.util.Map;
++
++import org.motechproject.decisiontree.core.FlowSession;
++import org.motechproject.event.MotechEvent;
++import org.motechproject.event.listener.EventRelay;
++import org.springframework.beans.factory.annotation.Autowired;
++
++public class EventTransition extends Transition {
++
++    @Autowired
++    private EventRelay eventRelay;
++
++    private String eventSubject;
++
++    public void setEventSubject(String eventSubject) {
++        this.eventSubject = eventSubject;
++    }
++
++    public String getEventSubject() {
++        return eventSubject;
++    }
++
++    @Override
++    public Node getDestinationNode(String input, FlowSession session) {
++        raiseEventWithData(session.getSessionId());
++        return super.getDestinationNode(input, session);
++    }
++
++    private void raiseEventWithData(String sessionId) {
++        Map<String, Object> params = new HashMap<>();
++        params.put("flowSessionId", sessionId);
++        MotechEvent motechEvent = new MotechEvent(eventSubject, params);
++        eventRelay.sendEventMessage(motechEvent);
++    }
++
++}
+diff --git a/platform/web-security/web-security/src/main/resources/META-INF/motech/securityContext.xml b/platform/web-security/web-security/src/main/resources/META-INF/motech/securityContext.xml
+index 8ad0112..ff14c89 100644
+--- a/platform/web-security/web-security/src/main/resources/META-INF/motech/securityContext.xml
++++ b/platform/web-security/web-security/src/main/resources/META-INF/motech/securityContext.xml
+@@ -39,6 +39,9 @@
+     <!-- This should be removed once modules can register urls with the web security system for protection
+          under different authorization schemes.  i.e. no security, api key, etc. -->
+     <security:http pattern="/**/commcare/**" security="none" />
++    <security:http pattern="/**/pillreminder-demo/**" security="none" />
++    <security:http pattern="/**/verboice/**" security="none" />
++
+ 
+     <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+ 
