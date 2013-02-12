@@ -4,7 +4,7 @@ import org.motechproject.event.MotechEvent;
 import org.motechproject.event.listener.annotations.MotechListener;
 import org.motechproject.ivr.ui.events.Events;
 import org.motechproject.ivr.ui.support.DecisionTreeSessionHandler;
-import org.motechproject.ivr.ui.support.PillReminders;
+import org.motechproject.ivr.ui.support.IVRUITests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UpdatePillRegimenListener {
 
-    private PillReminders pillReminders;
+    private IVRUITests pillReminders;
     private DecisionTreeSessionHandler decisionTreeSessionHandler;
 
     @Autowired
-    public UpdatePillRegimenListener(PillReminders pillReminders, DecisionTreeSessionHandler decisionTreeSessionHandler) {
+    public UpdatePillRegimenListener(IVRUITests pillReminders, DecisionTreeSessionHandler decisionTreeSessionHandler) {
         this.pillReminders = pillReminders;
         this.decisionTreeSessionHandler = decisionTreeSessionHandler;
     }

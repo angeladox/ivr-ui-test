@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.motechproject.ivr.ui.domain.EnrollmentRequest;
 import org.motechproject.ivr.ui.domain.EnrollmentResponse;
-import org.motechproject.ivr.ui.support.PillReminderEnroller;
-import org.motechproject.ivr.ui.support.PillReminders;
+import org.motechproject.ivr.ui.support.IVRUIEnroller;
+import org.motechproject.ivr.ui.support.IVRUITests;
 import org.motechproject.mrs.domain.Patient;
 import org.motechproject.mrs.model.OpenMRSAttribute;
 import org.motechproject.mrs.model.OpenMRSPatient;
@@ -23,17 +23,17 @@ import org.motechproject.mrs.services.PatientAdapter;
 public class PillReminderEnrollerTest {
 
     @Mock
-    PillReminders pillReminders;
+    IVRUITests pillReminders;
 
     @Mock
     PatientAdapter patientAdapter;
 
-    PillReminderEnroller enroller;
+    IVRUIEnroller enroller;
 
     @Before
     public void setUp() {
         initMocks(this);
-        enroller = new PillReminderEnroller(pillReminders, patientAdapter);
+        enroller = new IVRUIEnroller(pillReminders, patientAdapter);
     }
 
     @Test

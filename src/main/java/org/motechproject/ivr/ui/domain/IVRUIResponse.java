@@ -1,7 +1,7 @@
 package org.motechproject.ivr.ui.domain;
 
 
-public class PillReminderResponse {
+public class IVRUIResponse {
 
     private String startTime;
     private String lastCapturedDate;

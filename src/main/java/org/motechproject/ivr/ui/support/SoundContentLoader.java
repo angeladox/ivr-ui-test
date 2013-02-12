@@ -45,10 +45,6 @@ public class SoundContentLoader {
 
         loadSoundFile(SoundFiles.PIN_REQUEST);
         loadSoundFile(SoundFiles.INCORRECT_PIN);
-        loadSoundFile(SoundFiles.DOSAGE_QUESTION_1);
-        loadSoundFile(SoundFiles.DOSAGE_QUESTION_2);
-        loadSoundFile(SoundFiles.DOSAGE_ANSWER_YES);
-        loadSoundFile(SoundFiles.DOSAGE_ANSWER_NO);
         loadSoundFile(SoundFiles.CONTINUE_CALLS);
     }
 

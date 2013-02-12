@@ -16,12 +16,12 @@ import org.motechproject.ivr.ui.domain.EnrollmentRequest;
 import org.motechproject.ivr.ui.listener.CaseListener;
 import org.motechproject.ivr.ui.listener.CommcareConstants;
 import org.motechproject.ivr.ui.mrs.MrsEntityFacade;
-import org.motechproject.ivr.ui.support.PillReminderEnroller;
+import org.motechproject.ivr.ui.support.IVRUIEnroller;
 
 public class CaseListenerTest {
 
     @Mock
-    PillReminderEnroller enroller;
+    IVRUIEnroller enroller;
 
     @Mock
     MrsEntityFacade mrsEntityFacade;

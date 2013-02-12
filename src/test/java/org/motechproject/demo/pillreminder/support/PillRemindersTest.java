@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.ivr.ui.domain.PillReminderResponse;
-import org.motechproject.ivr.ui.support.PillReminders;
-import org.motechproject.ivr.ui.support.PillRemindersImpl;
+import org.motechproject.ivr.ui.support.IVRUITests;
+import org.motechproject.ivr.ui.support.IVRUITestsImpl;
 import org.motechproject.server.pillreminder.api.contract.DosageResponse;
 import org.motechproject.server.pillreminder.api.contract.PillRegimenResponse;
 import org.motechproject.server.pillreminder.api.service.PillReminderService;
@@ -26,12 +26,12 @@ public class PillRemindersTest {
     @Mock
     private PillReminderService pillReminderService;
 
-    private PillReminders pillReminders;
+    private IVRUITests pillReminders;
 
     @Before
     public void setUp() {
         initMocks(this);
-        pillReminders = new PillRemindersImpl(pillReminderService);
+        pillReminders = new IVRUITestsImpl(pillReminderService);
     }
 
     @Test

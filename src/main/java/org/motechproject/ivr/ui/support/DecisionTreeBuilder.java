@@ -67,32 +67,34 @@ public class DecisionTreeBuilder {
         tree.setName("DemoTree");
         Transition rootTransition = new Transition();
 
-        rootTransition.setDestinationNode(new Node().setNoticePrompts(
-                new Prompt[] {
-                        new AudioPrompt().setAudioFileUrl(settings.getCmsliteUrlFor(SoundFiles.DOSAGE_QUESTION_1)),
-                        new AudioPrompt().setAudioFileUrl(settings.getCmsliteUrlFor(SoundFiles.DOSAGE_QUESTION_2)) })
-                .setTransitions(
-                        new Object[][] { { "1", getPillTakenTransition() }, { "3", getPillNotTakenTransition() } }));
+        rootTransition.setDestinationNode(new Node()
+                .setNoticePrompts(
+                        new Prompt[] { new AudioPrompt().setAudioFileUrl(settings
+                                .getCmsliteUrlFor(SoundFiles.CONTINUE_CALLS)) }).setTransitions(
+                        new Object[][] { { "1", getContinueTransition() }, { "3", getStopTransition() } }));
         tree.setRootTransition(rootTransition);
 
         decisionTreeService.saveDecisionTree(tree);
     }
 
-    private Transition getPillNotTakenTransition() {
+    private Transition getStopTransition() {
         EventTransition transition = new EventTransition();
-        transition.setEventSubject(Events.PATIENT_MISSED_DOSAGE);
+        transition.setEventSubject(Events.PATIENT_SELECTED_STOP);
         transition.setDestinationNode(new Node().setPrompts(new AudioPrompt().setAudioFileUrl(settings
-                .getCmsliteUrlFor(SoundFiles.DOSAGE_ANSWER_NO))));
-        transition.setName("missed dosage");
+                .getCmsliteUrlFor(SoundFiles.GOODBYE))));
+        transition.setName("stop");
         return transition;
     }
 
-    private Transition getPillTakenTransition() {
+    private Transition getContinueTransition() {
         EventTransition transition = new EventTransition();
-        transition.setEventSubject(Events.PATIENT_TOOK_DOSAGE);
-        transition.setDestinationNode(new Node().setPrompts(new AudioPrompt().setAudioFileUrl(settings
-                .getCmsliteUrlFor(SoundFiles.DOSAGE_ANSWER_YES))));
-        transition.setName("pill taken");
+        transition.setEventSubject(Events.PATIENT_SELECTED_CONTINUE);
+        transition.setDestinationNode(new Node()
+                .setNoticePrompts(
+                        new Prompt[] { new AudioPrompt().setAudioFileUrl(settings
+                                .getCmsliteUrlFor(SoundFiles.CONTINUE_CALLS)) }).setTransitions(
+                        new Object[][] { { "1", getContinueTransition() }, { "3", getStopTransition() } }));
+        transition.setName("continue");
         return transition;
     }
 }

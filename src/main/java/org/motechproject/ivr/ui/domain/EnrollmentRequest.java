@@ -5,7 +5,15 @@ public class EnrollmentRequest {
     private String motechId;
     private String pin;
     private String phonenumber;
-    private String dosageStarTime;
+    private String callStartTime;
+
+    public String getCallStartTime() {
+        return callStartTime;
+    }
+
+    public void setCallStartTime(String callStartTime) {
+        this.callStartTime = callStartTime;
+    }
 
     public String getMotechId() {
         return motechId;
@@ -31,11 +39,5 @@ public class EnrollmentRequest {
         this.pin = pin;
     }
 
-    public void setDosageStartTime(String dosageStartTime) {
-        this.dosageStarTime = dosageStartTime;
-    }
 
-    public String getDosageStartTime() {
-        return dosageStarTime;
-    }
 }

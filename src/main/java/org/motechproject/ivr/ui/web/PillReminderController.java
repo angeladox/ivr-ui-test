@@ -9,8 +9,8 @@ import org.motechproject.ivr.ui.domain.EnrollmentResponse;
 import org.motechproject.ivr.ui.domain.MrsPatientSearchResult;
 import org.motechproject.ivr.ui.domain.PillReminderResponse;
 import org.motechproject.ivr.ui.mrs.MrsEntityFacade;
-import org.motechproject.ivr.ui.support.PillReminderEnroller;
-import org.motechproject.ivr.ui.support.PillReminders;
+import org.motechproject.ivr.ui.support.IVRUIEnroller;
+import org.motechproject.ivr.ui.support.IVRUITests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,13 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PillReminderController {
 
-    private final PillReminderEnroller enroller;
+    private final IVRUIEnroller enroller;
     private final MrsEntityFacade mrsEntityFacade;
-    private final PillReminders pillReminders;
+    private final IVRUITests pillReminders;
 
     @Autowired
-    public PillReminderController(PillReminderEnroller enroller, MrsEntityFacade mrsEntityFacade,
-            PillReminders pillReminders) {
+    public PillReminderController(IVRUIEnroller enroller, MrsEntityFacade mrsEntityFacade,
+            IVRUITests pillReminders) {
         this.enroller = enroller;
         this.mrsEntityFacade = mrsEntityFacade;
         this.pillReminders = pillReminders;

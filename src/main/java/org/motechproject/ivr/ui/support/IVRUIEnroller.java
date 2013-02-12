@@ -13,28 +13,20 @@ import org.motechproject.mrs.services.PatientAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * This class will enroll patients into a prebuilt pill reminder regimen
- */
 @Component
-public class PillReminderEnroller {
+public class IVRUIEnroller {
 
-    private final PillReminders pillReminders;
+    private final IVRUITests pillReminders;
     private final PatientAdapter patientAdapter;
 
     @Autowired
-    public PillReminderEnroller(PillReminders pillReminders, PatientAdapter patientAdapter) {
+    public IVRUIEnroller(IVRUITests pillReminders, PatientAdapter patientAdapter) {
         this.pillReminders = pillReminders;
         this.patientAdapter = patientAdapter;
     }
 
     public EnrollmentResponse enrollPatientWithId(EnrollmentRequest request) {
         EnrollmentResponse response = new EnrollmentResponse();
-
-        if (pillReminders.isPatientInPillRegimen(request.getMotechId())) {
-            response.addError("Patient is already enrolled in Pill Reminder Regimen.");
-            return response;
-        }
 
         Patient patient = patientAdapter.getPatientByMotechId(request.getMotechId());
         if (patient == null) {
@@ -53,7 +45,7 @@ public class PillReminderEnroller {
             return response;
         }
 
-        String actualStartTime = pillReminders.registerNewPatientIntoPillRegimen(request.getMotechId(), request.getDosageStartTime());
+        String actualStartTime = pillReminders.registerNewPatientIntoPillRegimen(request.getMotechId(), request.getCallStartTime());
         response.setStartTime(actualStartTime);
 
         return response;

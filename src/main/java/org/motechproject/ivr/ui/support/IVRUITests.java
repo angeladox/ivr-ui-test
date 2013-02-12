@@ -1,10 +1,10 @@
 package org.motechproject.ivr.ui.support;
 
-import org.motechproject.ivr.ui.domain.PillReminderResponse;
+import org.motechproject.ivr.ui.domain.IVRUIResponse;
 
-public interface PillReminders {
+public interface IVRUITests {
 
-    PillReminderResponse findPillReminderByMotechId(String motechId);
+    IVRUIResponse findIVRUITestByMotechId(String motechId);
 
     void deletePillReminder(String motechId);
 

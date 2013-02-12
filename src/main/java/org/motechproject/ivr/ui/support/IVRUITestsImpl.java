@@ -6,6 +6,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.util.DateUtil;
+import org.motechproject.ivr.ui.domain.IVRUIResponse;
 import org.motechproject.ivr.ui.domain.PillReminderResponse;
 import org.motechproject.server.pillreminder.api.contract.DailyPillRegimenRequest;
 import org.motechproject.server.pillreminder.api.contract.DosageRequest;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
  * {@link PillReminderService}
  */
 @Component
-public class PillRemindersImpl implements PillReminders {
+public class IVRUITestsImpl implements IVRUITests {
 
     private static final String NO_RESPONSE_CAPTURED_YET = "No response captured yet";
 
@@ -32,7 +33,7 @@ public class PillRemindersImpl implements PillReminders {
     private PillReminderService pillReminderService;
 
     @Autowired
-    public PillRemindersImpl(PillReminderService pillReminderService) {
+    public IVRUITestsImpl(PillReminderService pillReminderService) {
         this.pillReminderService = pillReminderService;
     }
 
@@ -43,13 +44,13 @@ public class PillRemindersImpl implements PillReminders {
      * findPillReminderByMotechId(java.lang.String)
      */
     @Override
-    public PillReminderResponse findPillReminderByMotechId(String motechId) {
+    public IVRUIResponse findIVRUITestByMotechId(String motechId) {
         PillRegimenResponse regimen = pillReminderService.getPillRegimen(motechId);
-        return getPillReminderResponseFromRegimen(regimen);
+        return getIVRUITestResponseFromRegimen(regimen);
     }
 
-    private PillReminderResponse getPillReminderResponseFromRegimen(PillRegimenResponse regimen) {
-        PillReminderResponse response = new PillReminderResponse();
+    private IVRUIResponse getIVRUITestResponseFromRegimen(PillRegimenResponse regimen) {
+        IVRUIResponse response = new IVRUIResponse();
         if (regimen == null) {
             return response;
         }
