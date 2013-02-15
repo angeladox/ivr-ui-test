@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-	<Gather action="$path/module/pillreminder-demo/ivr/authenticate?sessionId=$sessionId" 
+	<Gather action="$path/module/ivr-ui-test/ivr/authenticate?sessionId=$sessionId" 
 			timeout="10" 
 			numDigits="4">
         <Play>$audioFileUrl</Play>

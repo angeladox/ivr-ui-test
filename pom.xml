@@ -108,13 +108,8 @@
         </dependency>
         <dependency>
             <groupId>org.motechproject</groupId>
-            <artifactId>motech-openmrs-domain-bundle</artifactId>
-            <version>${motech.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.motechproject</groupId>
-            <artifactId>motech-pillreminder-api</artifactId>
-            <version>${motech.version}</version>
+            <artifactId>motech-mrs-couchdb</artifactId>
+            <version>0.17-icappr-2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.motechproject</groupId>

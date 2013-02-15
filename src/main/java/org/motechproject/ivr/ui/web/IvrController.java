@@ -58,7 +58,7 @@ public class IvrController {
         String digits = request.getParameter("Digits");
 
         ModelAndView view = null;
-        if (decisionTreeSessionHandler.digitsMatchPatientPin(sessionId, digits)) {
+        if (decisionTreeSessionHandler.digitsMatchPin(sessionId, digits)) {
             view = new ModelAndView("redirect");
             view.addObject("path", settings.getMotechUrl());
             view.addObject("sessionId", sessionId);

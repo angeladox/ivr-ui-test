@@ -1,67 +1,82 @@
 package org.motechproject.ivr.ui.support;
 
-import java.util.Iterator;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.UUID;
+import org.motechproject.ivr.service.CallRequest;
+import org.motechproject.ivr.service.IVRService;
+import org.motechproject.ivr.ui.IVRUISettings;
 import org.motechproject.ivr.ui.domain.EnrollmentRequest;
 import org.motechproject.ivr.ui.domain.EnrollmentResponse;
-import org.motechproject.ivr.ui.mrs.MrsConstants;
-import org.motechproject.mrs.domain.Attribute;
-import org.motechproject.mrs.domain.Patient;
-import org.motechproject.mrs.domain.Person;
-import org.motechproject.mrs.model.OpenMRSAttribute;
-import org.motechproject.mrs.services.PatientAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class IVRUIEnroller {
-
-    private final IVRUITests pillReminders;
-    private final PatientAdapter patientAdapter;
-
+    
+    private final IVRService ivrService;
+    private final IVRUISettings settings;
+    
     @Autowired
-    public IVRUIEnroller(IVRUITests pillReminders, PatientAdapter patientAdapter) {
-        this.pillReminders = pillReminders;
-        this.patientAdapter = patientAdapter;
+    public IVRUIEnroller(IVRService ivrService, IVRUISettings settings) {
+        this.ivrService = ivrService;
+        this.settings = settings;
     }
 
-    public EnrollmentResponse enrollPatientWithId(EnrollmentRequest request) {
+    /*
+     * Enrolls a person in the test calls. The request contains the phone
+     * number, pin, motech ID, and call start time.
+     */
+    public EnrollmentResponse enrollPerson(EnrollmentRequest request) {
         EnrollmentResponse response = new EnrollmentResponse();
 
-        Patient patient = patientAdapter.getPatientByMotechId(request.getMotechId());
-        if (patient == null) {
-            response.addError("No MRS Patient Found with id: " + request.getMotechId());
+        String phoneNum = request.getPhonenumber();
+        if (phoneNum == null) {
+            response.addError("Phone Number with digits: " + request.getPhonenumber() + " not found.");
             return response;
         }
 
-        setAttribute(patient.getPerson(), request.getPin(), MrsConstants.PERSON_PIN_ATTR_NAME);
-        setAttribute(patient.getPerson(), request.getPhonenumber(), MrsConstants.PERSON_PHONE_NUMBER_ATTR_NAME);
-        try {
-            patientAdapter.updatePatient(patient);
-        } catch (Exception e) {
-            // if OpenMRS does not have attribute types of Pin or Phone Number
-            // an exception will be thrown
-            response.addError("OpenMRS does not have person attribute type: Pin or Phone Number. Please add them");
+        String pin = request.getPin();
+        if (pin == null) {
+            response.addError("Pin with digits: " + request.getPin() + " not found.");
+            return response;
+        }
+        
+        String motechID = request.getMotechID();
+        if (motechID == null) {
+            response.addError("Motech ID with digits: " + request.getMotechID() + " was not found.");
             return response;
         }
 
-        String actualStartTime = pillReminders.registerNewPatientIntoPillRegimen(request.getMotechId(), request.getCallStartTime());
+        String actualStartTime = request.getCallStartTime();
         response.setStartTime(actualStartTime);
+
+        initiateCall(phoneNum, motechID);
 
         return response;
     }
 
-    private void setAttribute(Person person, String attrValue, String attrName) {
-        Iterator<Attribute> attrs = person.getAttributes().iterator();
-        while (attrs.hasNext()) {
-            Attribute attr = attrs.next();
-            if (attrName.equalsIgnoreCase(attr.getName())) {
-                attrs.remove();
-                break;
-            }
+    private void initiateCall(String phoneNum, String motechID) {
+        CallRequest callRequest = new CallRequest(phoneNum, 120, settings.getVerboiceChannelName());
+
+        Map<String, String> payload = callRequest.getPayload();
+        
+        // it's important that we store a motech id in the call request
+        // payload. The verboice ivr service will copy all payload data to the
+        // flow session so that we can retrieve it at a later time
+        payload.put(CallRequestDataKeys.MOTECH_ID, motechID);
+
+        // the callback_url is used once verboice starts a call to retrieve the
+        // data for the call (e.g. TwiML)
+        String callbackUrl = settings.getMotechUrl() + "/module/ivr-ui-test/ivr/start?motech_call_id=%s";
+        try {
+            payload.put(CallRequestDataKeys.CALLBACK_URL,
+                    URLEncoder.encode(String.format(callbackUrl, callRequest.getCallId()), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
         }
 
-        person.getAttributes().add(new OpenMRSAttribute(attrName, attrValue));
+        ivrService.initiateCall(callRequest);
     }
 
 }

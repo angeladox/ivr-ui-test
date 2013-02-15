@@ -1,10 +1,10 @@
 <!doctype html>
 <html ng-app="pillReminder">
     <head>
-        <link type="text/css" rel="stylesheet" href="$path/pillreminder-resources/css/bootstrap.css" />
-        <script type="text/javascript" src="$path/pillreminder-resources/js/angular.min.js"></script>
-        <script type="text/javascript" src="$path/pillreminder-resources/js/angular-resource.min.js"></script>
-        <script type="text/javascript" src="$path/pillreminder-resources/app/app.js"></script>
+        <link type="text/css" rel="stylesheet" href="$path/ivr-ui-resources/css/bootstrap.css" />
+        <script type="text/javascript" src="$path/ivr-ui-resources/js/angular.min.js"></script>
+        <script type="text/javascript" src="$path/ivr-ui-resources/js/angular-resource.min.js"></script>
+        <script type="text/javascript" src="$path/ivr-ui-resources/app/app.js"></script>
     </head>
     <body ng-controller="TabController">
         <h1>Pill Reminder Demo</h1>

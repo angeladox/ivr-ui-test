@@ -8,7 +8,7 @@
                     <input type="text" ng-model="search.motechId" />
                     <br />
                     <button type="submit" class="btn" ng-click="searchPatient()" ng-disabled="searching">Search for Patient</button>
-                    <span ng-show="searching"><img src="$path/pillreminder-resources/img/ajax-loader.gif" /> Searching...</span>
+                    <span ng-show="searching"><img src="$path/ivr-ui-resources/img/ajax-loader.gif" /> Searching...</span>
                 </fieldset>
             </form>
         </div>

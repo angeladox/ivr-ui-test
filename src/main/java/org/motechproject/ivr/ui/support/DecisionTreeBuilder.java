@@ -42,7 +42,6 @@ public class DecisionTreeBuilder {
         // spinning up a new thread so that this will not block the bundle
         // loading process
         new Thread(new Runnable() {
-
             @Override
             public void run() {
                 deleteOldTree();

@@ -14,8 +14,8 @@ public class Activator implements BundleActivator {
     private static Logger logger = LoggerFactory.getLogger(Activator.class);
 
     private static final String CONTEXT_CONFIG_LOCATION = "spring/applicationContext.xml";
-    private static final String SERVLET_URL_MAPPING = "/pillreminder-demo";
-    private static final String RESOURCE_URL_MAPPING = "/pillreminder-resources";
+    private static final String SERVLET_URL_MAPPING = "/ivr-ui-test";
+    private static final String RESOURCE_URL_MAPPING = "/ivr-ui-resources";
 
     private ServiceTracker httpServiceTracker;
 
@@ -48,12 +48,10 @@ public class Activator implements BundleActivator {
     }
 
     public static class PillReminderDemoApplicationContext extends MotechOsgiWebApplicationContext {
-
         public PillReminderDemoApplicationContext() {
             super();
             setBundleContext(Activator.bundleContext);
         }
-
     }
 
     private void serviceAdded(HttpService service) {
